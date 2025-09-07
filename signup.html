@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signup</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+    <span style="display:inline-block;width:48px;height:48px;border-radius:50%;background:#fff;box-shadow:0 2px 8px #1d9bf0cc;border:2px solid #1d9bf0;overflow:hidden;vertical-align:middle;">
+      <img src="/standout-logo.png" alt="STANDOUT Logo" style="width:40px;height:40px;object-fit:contain;border-radius:50%;vertical-align:middle;">
+    </span>
+    <h1 style="color:#1d9bf0;letter-spacing:4px;font-size:2.2rem;font-weight:900;text-shadow:0 4px 24px #1d9bf0,0 0 8px #fff;background:none;border-radius:16px;padding:12px 0 8px 0;box-shadow:0 2px 24px #1d9bf033;margin:0;">Standout</h1>
+  </div>
+  <h2 style="text-align:center;margin-bottom:24px;">Signup</h2>
+  <form id="signupForm">
+    <input type="text" id="username" placeholder="Username" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="password" id="password" placeholder="Password" required><br>
+    <button type="submit">Signup</button>
+  </form>
+  <p>Already have an account? <a href="login.html">Login</a></p>
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Standout Social Media</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-links" style="display:flex;align-items:center;gap:18px;">
+      <a href="index.html" style="display:flex;align-items:center;gap:8px;">
+        <span style="display:inline-block;width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:0 2px 8px #1d9bf0cc;border:2px solid #1d9bf0;overflow:hidden;vertical-align:middle;">
+          <img src="/standout-logo.png" alt="STANDOUT Logo" style="width:48px;height:48px;object-fit:contain;border-radius:50%;vertical-align:middle;">
+        </span>
+        <span style="font-weight:700;color:#1d9bf0;letter-spacing:2px;">Home</span>
+      </a>
+      <a href="login.html">Login</a>
+      <a href="signup.html">Signup</a>
+    </div>
+    <div class="navbar-actions">
+      <button id="settingsBtn" class="icon-btn" title="Settings">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#1d9bf0" stroke-width="2"/><path d="M12 8v4l3 3" stroke="#1d9bf0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button id="moreBtn" class="icon-btn" title="More actions">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="5" cy="12" r="2" fill="#a855f7"/><circle cx="12" cy="12" r="2" fill="#1d9bf0"/><circle cx="19" cy="12" r="2" fill="#a855f7"/></svg>
+      </button>
+    </div>
+  </nav>
+  <div id="app">
+  <h1 style="color:#1d9bf0;letter-spacing:4px;font-size:2.8rem;font-weight:900;text-shadow:0 4px 24px #1d9bf0,0 0 8px #fff;background:none;border-radius:16px;padding:18px 0 12px 0;box-shadow:0 2px 24px #1d9bf033;">Standout</h1>
+    <form id="tweetForm" enctype="multipart/form-data">
+      <div style="display:flex;align-items:flex-start;gap:12px;">
+        <img src="https://abs.twimg.com/sticky/default_profile_images/default_profile_400x400.png" class="tweet-avatar" alt="avatar">
+        <div style="flex:1;">
+          <textarea id="tweetContent" placeholder="What is happening?!"></textarea>
+          <input type="file" id="tweetMedia" accept="image/*,video/*" style="margin-top:8px;width:100%;background:#222;color:#fff;border-radius:8px;">
+        </div>
+      </div>
+      <button type="submit" style="margin-top:10px;float:right;">Post</button>
+    </form>
+    <div id="feed"></div>
+  </div>
+  <div id="settingsMenu" class="settings-menu" style="display:none;">
+    <div class="settings-menu-content">
+      <h3>Settings</h3>
+      <ul>
+        <li><button id="editProfileBtn" class="settings-action">Edit Profile</button></li>
+        <li><button id="themeToggleBtn" class="settings-action">Theme: <span id="themeLabel">Dark</span></button></li>
+        <li><button id="autoDownloadBtn" class="settings-action">Auto Download Media: <span id="autoDownloadLabel">Off</span></button></li>
+        <li><button id="remove24hBtn" class="settings-action">Remove Tweets After 24h: <span id="remove24hLabel">Off</span></button></li>
+        <li><button id="logoutBtn" class="settings-action">Logout</button></li>
+      </ul>
+      <button id="closeSettings" style="margin-top:12px;">Close</button>
+    </div>
+  </div>
+
+  <div id="editProfileModal" class="settings-menu" style="display:none;max-width:340px;">
+    <div class="settings-menu-content">
+      <h3>Edit Profile</h3>
+      <label for="newName">New Display Name:</label>
+      <input type="text" id="newName" style="width:100%;margin-bottom:12px;">
+      <div id="editProfileMsg" style="color:#a855f7;margin-bottom:8px;"></div>
+      <button id="saveProfileBtn">Save</button>
+      <button id="closeEditProfile" style="margin-left:8px;">Cancel</button>
+    </div>
+  </div>
+  <script src="js/tweets.js"></script>
+  <script>
+    // Settings menu open/close
+    document.getElementById('settingsBtn').onclick = function() {
+      document.getElementById('settingsMenu').style.display = 'block';
+    };
+    document.getElementById('closeSettings').onclick = function() {
+      document.getElementById('settingsMenu').style.display = 'none';
+    };
+    document.getElementById('moreBtn').onclick = function() {
+      alert('More actions coming soon!');
+    };
+
+    // Theme toggle
+    function setTheme(mode) {
+      document.body.classList.toggle('light-theme', mode === 'light');
+      document.getElementById('themeLabel').textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
+      localStorage.setItem('theme', mode);
+    }
+    document.getElementById('themeToggleBtn').onclick = function() {
+      const current = localStorage.getItem('theme') || 'dark';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    };
+    if (localStorage.getItem('theme') === 'light') setTheme('light');
+
+    // Auto download toggle
+    function setAutoDownload(val) {
+      localStorage.setItem('autoDownload', val ? 'on' : 'off');
+      document.getElementById('autoDownloadLabel').textContent = val ? 'On' : 'Off';
+    }
+    document.getElementById('autoDownloadBtn').onclick = function() {
+      const current = localStorage.getItem('autoDownload') === 'on';
+      setAutoDownload(!current);
+    };
+    setAutoDownload(localStorage.getItem('autoDownload') === 'on');
+
+    // Remove tweets after 24h toggle
+    function setRemove24h(val) {
+      localStorage.setItem('remove24h', val ? 'on' : 'off');
+      document.getElementById('remove24hLabel').textContent = val ? 'On' : 'Off';
+    }
+    document.getElementById('remove24hBtn').onclick = function() {
+      const current = localStorage.getItem('remove24h') === 'on';
+      setRemove24h(!current);
+      window.location.reload();
+    };
+    setRemove24h(localStorage.getItem('remove24h') === 'on');
+
+    // Edit profile modal
+    document.getElementById('editProfileBtn').onclick = function() {
+      document.getElementById('editProfileModal').style.display = 'block';
+      document.getElementById('settingsMenu').style.display = 'none';
+      document.getElementById('editProfileMsg').textContent = '';
+      document.getElementById('newName').value = '';
+    };
+    document.getElementById('closeEditProfile').onclick = function() {
+      document.getElementById('editProfileModal').style.display = 'none';
+    };
+    document.getElementById('saveProfileBtn').onclick = async function() {
+      const newName = document.getElementById('newName').value.trim();
+      if (!newName) {
+        document.getElementById('editProfileMsg').textContent = 'Name cannot be empty.';
+        return;
+      }
+      // Call backend to update name
+      const res = await fetch('/api/auth/edit-profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newName })
+      });
+      const data = await res.json();
+      if (res.ok) {
+        document.getElementById('editProfileMsg').textContent = 'Name updated!';
+        setTimeout(() => {
+          document.getElementById('editProfileModal').style.display = 'none';
+        }, 1200);
+      } else {
+        document.getElementById('editProfileMsg').textContent = data.error || 'Error updating name.';
+      }
+    };
+
+    // Logout
+    document.getElementById('logoutBtn').onclick = async function() {
+      await fetch('/api/auth/logout', { method: 'POST' });
+      window.location.href = 'login.html';
+    };
+  </script>
+</body>
+</html>
